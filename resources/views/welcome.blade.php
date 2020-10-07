@@ -1,7 +1,7 @@
-@extends('layouts.app2')
-
+@extends('layouts.app')
 @section('content')
-    <div class="container-fluid bg-info mt-3">
+
+    <div class="container-fluid bg-primary mt-3">
         <div class="mx-auto anuncion-titulo text-center text-white">
             <h3>Bienvenido a propicolombia</h3>
             <h5>Busquedad avanzada de propiedades en venta o arriendo</h5>
@@ -27,7 +27,7 @@
                           <option>Venta</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary form-group">Buscar</button>
+                    <button class="btn btn-success form-group">Buscar</button>
                     
                 </div>
                 <a href="" class="form-group float-right text-white"><u>Buscar por codigo de propiedad</u></a>
@@ -38,4 +38,5 @@
     <div class="container">
         
     </div>
+     
 @endsection

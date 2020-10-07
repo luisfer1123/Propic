@@ -1,23 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+<div class="container-fluid bg-primary mt-3">
+    <div class="mx-auto anuncion-titulo text-center text-white">
+        <h3>Bienvenido a propicolombia</h3>
+        <h5>Busquedad avanzada de propiedades en venta o arriendo</h5>
+        <form action="">
+            <div class="row">
+                <div class="form-group col-md-3">
+                  <select class="form-control" name="" id="">
+                    <option>Tipo propiedad</option>
+                    <option></option>
+                    <option></option>
+                  </select>
                 </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control" name="" id="">
+                      <option>Ciudad</option>
+                      <option></option>
+                      <option></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <select class="form-control" name="" id="">
+                      <option>Arriendo</option>
+                      <option>Venta</option>
+                    </select>
+                </div>
+                <button class="btn btn-success form-group">Buscar</button>
+                
             </div>
-        </div>
+            <a href="" class="form-group float-right text-white"><u>Buscar por codigo de propiedad</u></a>
+        </form>
     </div>
 </div>
+
+<div class="container">
+    
+</div>
+ 
+
 @endsection

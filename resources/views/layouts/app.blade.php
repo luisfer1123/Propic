@@ -19,64 +19,77 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!--estilos propios-->
+    <link rel="stylesheet" href="css/inicio.css">
    
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a href="/" class="navbar-brand">Propic.com.co</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navegador">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navegador">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="" class="nav-link">Anuncios</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="" class="nav-link">Quienes somos</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="" class="nav-link">Contacto</a>
+                    </li>
+                    @guest
+                    <li class="nav-item active">
+                        <a href="{{ route('login') }}" class="btn btn-success my-2 my-sm-0 nav-link">Iniciar sesion</a>
+                    </li>
+                    @else
+                    <li class="nav-item active">
+                        <a href="{{ route('logout') }}" class="btn btn-danger my-2 my-sm-0 nav-link" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Cerrar sesion</a>
+                    </li>
+                    <form id="logout-form" action="{{route('logout')}}" method="POST">
+                        @csrf
+                    </form>
+                    @endguest
+                </ul>  
+            </div>        
+            
         </nav>
 
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+    <footer class="page-footer font-small bg-dark text-white mt-5">
+        <div class="container">
+
+            <div class="row">
+              <div class="col-md-6 pt-3">
+                  <h5 class="text-center text-left">Nosotros</h5>
+                  <p>Este pagina esta creada con el fin de que los usuarios puedan encontrar la casa o propiedad.
+                    Que tanto desean de manera rapida y sencilla clasificando los anuncios y eliminando a quellos que no estan disponibles.
+
+                  </p>
+              </div>
+              <div class="col-md-6 pt-3">
+                <ul class="list-unstyled list-inline text-center py-2  d-flex justify-content-end">
+                  <li class="list-inline-item ">
+                    <h5 class="mb-1">Registrarse</h5>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="" class="btn btn-outline-light">Login</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+        </div>
+
+        <div class="footer-copyright text-center py-3" style="background: black">
+          todos los derechos reservados © 2020 Copyright 
+        </div>
+     </footer>
 </body>
 </html>
