@@ -6,6 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -21,7 +22,14 @@
 
     <!--estilos propios-->
     <link rel="stylesheet" href="css/inicio.css">
+
+    <!--iconos-->
+    <script src="https://kit.fontawesome.com/628b78a55e.js" crossorigin="anonymous"></script>
    
+    <!--jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
     <div id="app">
@@ -33,7 +41,10 @@
             <div class="collapse navbar-collapse justify-content-end" id="navegador">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a href="" class="nav-link">Anuncios</a>
+                        <a href="anuncios" class="nav-link">Anuncios</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="/" class="nav-link">Mis anuncios <span class="badge bg-success">0</span></a>
                     </li>
                     <li class="nav-item active">
                         <a href="" class="nav-link">Quienes somos</a>
@@ -91,5 +102,6 @@
           todos los derechos reservados © 2020 Copyright 
         </div>
      </footer>
+     @yield('scriptjs')
 </body>
 </html>

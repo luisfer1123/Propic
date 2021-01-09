@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Ciudade;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('/anuncios', App\Http\Controllers\AnuncioController::class);
+Route::get('/ciudades',[App\Http\Controllers\AnuncioController::class,'ciudades']);
+
+
+
+

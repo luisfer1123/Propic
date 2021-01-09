@@ -3,3 +3,23 @@
     width: 80%;
     padding-bottom: 100px;
 }
+
+.container_logo{ 
+    width: 10rem;
+    height: 8rem;
+    border-radius: 50%;
+    background:  rgb(11, 170, 11);
+    display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+    margin:0px auto;
+    padding:3%
+}
+
+.logo_container_text{
+    color: white;
+    font-weight: bold;
+    font-size: 2.4rem;
+}
+
