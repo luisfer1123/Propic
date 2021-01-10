@@ -8,6 +8,7 @@ use App\Models\Ciudade;
 use App\Models\Categoria;
 use App\Models\Tipo;
 use App\Models\Anuncio;
+use App\Models\Foto;
 use App\Http\Requests\AnuncioRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -65,7 +66,7 @@ class AnuncioController extends Controller
      */
     public function store(AnuncioRequest $request)
     {
-        
+            $fotos = new Foto();
             $anuncio_nuevo = new Anuncio();
             $anuncio_nuevo->id_user = auth()->id();
             $anuncio_nuevo->id_ciudad = request('ciudad');
@@ -77,7 +78,22 @@ class AnuncioController extends Controller
             $anuncio_nuevo->cuartos = request('cuartos');
             $anuncio_nuevo->metros_cuadrados = request('Mcuadrados');
             $anuncio_nuevo->save();
-        
+            $id_anuncio = $anuncio_nuevo->id;
+            if($request->hasFile("imagenes")){
+                $files = $request->file("imagenes");
+                foreach($files as $file){
+                    $num = rand(0,9999);
+                    $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path()."/images/anuncios",$file_name);
+                    $fotos->nombre = $file->getClientOriginalName();
+                    $fotos->id_anuncio = $id_anuncio; 
+                    $fotos->save();
+                }
+            }
+
+            
+            
+            
         return redirect('/anuncios');
     }
 

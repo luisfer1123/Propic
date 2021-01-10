@@ -19,7 +19,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="/anuncios" method="POST">
+          <form action="/anuncios" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Departamento:</label>
@@ -69,11 +69,15 @@
             </div>
             <div class="mb-3">
               <label for="Mcuadrados">Metros Cuadrados</label>
-              <input type="Number" name="Mcuadrados" id="Mcuadrados" class="form-control" placeholder="" aria-describedby="helpId">
+              <input type="Number" name="Mcuadrados" id="Mcuadrados" class="form-control" placeholder="" aria-describedby="helpId" step="any">
             </div>
             <div class="form-floating">
               <textarea class="form-control" name="descripcion" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
               <label for="floatingTextarea2">Descripción de la publicación</label>
+            </div>
+            <div class="mt-3">
+              <label for="formFileMultiple" class="form-label">Seleccione las imagenes</label>
+              <input class="form-control" accept="image/*" name="imagenes[]" type="file" id="formFileMultiple" multiple>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
