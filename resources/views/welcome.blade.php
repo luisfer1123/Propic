@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('Acount',$total_anuncios)
 @section('content')
 
     <div class="container-fluid bg-primary mt-3">

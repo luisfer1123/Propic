@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\DB;
 
 class AnuncioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,16 +28,16 @@ class AnuncioController extends Controller
     public function index()
     {
         //$anuncios = Anuncio::all();
-        $anuncios = DB::select("select a.id,ci.nombre as 'ciudad',c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',a.descripcion,
-        a.cuartos,a.metros_cuadrados,date_format(a.created_at,'%d/%m/%Y') as 'created_at' from anuncios a,categorias c,tipos t,ciudades ci where a.id_ciudad = ci.id and 
-        a.id_categoria = c.id and a.tipo_anuncio = t.id");
+        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+        $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',f.nombre as 'nombre_foto',c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',a.descripcion,
+        a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,fotos f,tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id
+        and a.tipo_anuncio = t.id and f.id_anuncio = a.id ");
 
         $departamentos=Departamento::all();
         $categorias = Categoria::all();
         $tipos = Tipo::all();
-        
 
-        return view('pages.anuncios',["anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+        return view('pages.anuncios',["total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
 
     }
 
@@ -66,7 +70,7 @@ class AnuncioController extends Controller
      */
     public function store(AnuncioRequest $request)
     {
-            $fotos = new Foto();
+            
             $anuncio_nuevo = new Anuncio();
             $anuncio_nuevo->id_user = auth()->id();
             $anuncio_nuevo->id_ciudad = request('ciudad');
@@ -82,10 +86,11 @@ class AnuncioController extends Controller
             if($request->hasFile("imagenes")){
                 $files = $request->file("imagenes");
                 foreach($files as $file){
+                    $fotos = new Foto();
                     $num = rand(0,9999);
                     $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
                     $file->move(public_path()."/images/anuncios",$file_name);
-                    $fotos->nombre = $file->getClientOriginalName();
+                    $fotos->nombre = $file_name;
                     $fotos->id_anuncio = $id_anuncio; 
                     $fotos->save();
                 }

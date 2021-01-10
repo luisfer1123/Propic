@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('Acount',$total_anuncios)
 @section('content')
 <div class="container-fluid bg-primary mt-3">
     <div class="mx-auto anuncion-titulo text-center text-white">
@@ -8,21 +8,21 @@
         <form action="">
             <div class="row">
                 <div class="col-md-3">
-                  <select class="form-select" name="" id="">
+                  <select class="form-control" name="" id="">
                     <option>Tipo propiedad</option>
                     <option></option>
                     <option></option>
                   </select>
                 </div>
                 <div class=" col-md-3">
-                    <select class="form-select" name="" id="">
+                    <select class="form-control" name="" id="">
                       <option>Ciudad</option>
                       <option></option>
                       <option></option>
                     </select>
                 </div>
                 <div class=" col-md-3">
-                    <select class="form-select" name="" id="">
+                    <select class="form-control" name="" id="">
                       <option>Arriendo</option>
                       <option>Venta</option>
                     </select>

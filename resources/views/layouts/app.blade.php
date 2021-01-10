@@ -29,7 +29,9 @@
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    
+    <!--stilos propis-->
+    @yield('linkscss')
 </head>
 <body>
     <div id="app">
@@ -40,12 +42,16 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navegador">
                 <ul class="navbar-nav">
+                    
                     <li class="nav-item active">
                         <a href="anuncios" class="nav-link">Anuncios</a>
-                    </li>
+                    </li>    
+                    @guest
+                    @else
                     <li class="nav-item active">
-                        <a href="/" class="nav-link">Mis anuncios <span class="badge bg-success">0</span></a>
+                        <a href="/" class="nav-link">Mis anuncios <span class="badge bg-success">@yield('Acount')</span></a>
                     </li>
+                    @endguest
                     <li class="nav-item active">
                         <a href="" class="nav-link">Quienes somos</a>
                     </li>
@@ -90,7 +96,7 @@
                     <h5 class="mb-1">Registrarse</h5>
                   </li>
                   <li class="list-inline-item">
-                    <a href="" class="btn btn-outline-light">Login</a>
+                    <a href="/login" class="btn btn-outline-light">Login</a>
                   </li>
                 </ul>
               </div>

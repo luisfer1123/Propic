@@ -23,7 +23,7 @@
             @csrf
             <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Departamento:</label>
-              <select name="departamento" id="departamento" class="form-select">
+              <select name="departamento" id="departamento" class="form-control">
                 <option value="">Seleccione una opcion</option>
                 @foreach ($departamentos as $departamento)
                   <option value="{{$departamento->id}}">{{$departamento->nombre}}</option>  
@@ -33,13 +33,13 @@
             </div>
             <div class="mb-3">
               <label for="message-text" class="col-form-label">Ciudad o municipio:</label>
-                <select name="ciudad" id="ciudad" class="form-select">
+                <select name="ciudad" id="ciudad" class="form-control">
 
                 </select>
             </div>
             <div class="mb-3">
               <label for="categoria">Categoria</label>
-              <select name="categoria" id="categoria" class="form-select">
+              <select name="categoria" id="categoria" class="form-control">
                 <option value="">Seleccione una opcion</option>
                 @foreach ($categorias as $categoria)
                     <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
@@ -48,7 +48,7 @@
             </div>
             <div class="mb-3">
               <label for="tipo">Tipo de anuncio</label>
-              <select name="tipo" id="tipo" class="form-select">
+              <select name="tipo" id="tipo" class="form-control">
                 <option value="">Seleccione una opcion</option>
                 @foreach ($tipos as $tipo)
                     <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
@@ -72,8 +72,8 @@
               <input type="Number" name="Mcuadrados" id="Mcuadrados" class="form-control" placeholder="" aria-describedby="helpId" step="any">
             </div>
             <div class="form-floating">
-              <textarea class="form-control" name="descripcion" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
               <label for="floatingTextarea2">Descripción de la publicación</label>
+              <textarea class="form-control" name="descripcion" placeholder="Descripcion" id="floatingTextarea2" style="height: 100px"></textarea>
             </div>
             <div class="mt-3">
               <label for="formFileMultiple" class="form-label">Seleccione las imagenes</label>
@@ -86,7 +86,6 @@
           </form>
         </div>
       
-        
       </div>
     </div>
 </div>
