@@ -9,6 +9,9 @@ use App\Models\Categoria;
 use App\Models\Tipo;
 use App\Models\Anuncio;
 use App\Http\Requests\AnuncioRequest;
+use Illuminate\Support\Facades\DB;
+
+
 
 class AnuncioController extends Controller
 {
@@ -19,10 +22,17 @@ class AnuncioController extends Controller
      */
     public function index()
     {
+        //$anuncios = Anuncio::all();
+        $anuncios = DB::select("select a.id,ci.nombre as 'ciudad',c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',a.descripcion,
+        a.cuartos,a.metros_cuadrados,date_format(a.created_at,'%d/%m/%Y') as 'created_at' from anuncios a,categorias c,tipos t,ciudades ci where a.id_ciudad = ci.id and 
+        a.id_categoria = c.id and a.tipo_anuncio = t.id");
+
         $departamentos=Departamento::all();
         $categorias = Categoria::all();
         $tipos = Tipo::all();
-        return view('pages.anuncios',["categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+        
+
+        return view('pages.anuncios',["anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
 
     }
 
@@ -37,7 +47,6 @@ class AnuncioController extends Controller
     }
         
     
-
     /**
      * Show the form for creating a new resource.
      *
