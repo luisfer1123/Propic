@@ -62,7 +62,7 @@
     @if ($f_anuncios)
             <div class="alert alert-success mt-2" role="alert">
                 Resultados de la busqueda:
-          </div>
+            </div>
     @endif
     
     <div class="container-fluid mt-2 pb-2">

@@ -143,12 +143,14 @@ class AnuncioController extends Controller
     public function show($id)
     {
         $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
-        
-        $fotos = Foto::all()->where('id_anuncio','=',$id); 
+        $fotos = Foto::all()->where('id_anuncio','=',$id);
         $portada = Anuncio::findOrFail($id);
 
-        $ciudad = Ciudade::findOrFail($id);
-        return view('pages.view',["ciudad"=>$ciudad,"total_anuncios"=>$Tanuncios,"portada"=>$portada,"fotos"=>$fotos]);
+        $tipo = Tipo::findOrFail($portada->tipo_anuncio);
+        $categoria = Categoria::findOrFail($portada->id_categoria);
+        $ciudad = Ciudade::findOrFail($portada->id_ciudad);
+        return view('pages.view',["ciudad"=>$ciudad,"total_anuncios"=>$Tanuncios,
+        "portada"=>$portada,"fotos"=>$fotos,"tipo"=>$tipo,"categoria"=>$categoria]);
     }
 
     /**
