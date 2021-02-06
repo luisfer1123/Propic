@@ -76,6 +76,10 @@
               <textarea class="form-control" name="descripcion" placeholder="Descripcion" id="floatingTextarea2" style="height: 100px"></textarea>
             </div>
             <div class="mt-3">
+              <label for="formFileMultiple" class="form-label">Seleccione la portada</label>
+              <input class="form-control" accept="image/*" name="portada" type="file" id="formFileMultiple">
+            </div>
+            <div class="mt-3">
               <label for="formFileMultiple" class="form-label">Seleccione las imagenes</label>
               <input class="form-control" accept="image/*" name="imagenes[]" type="file" id="formFileMultiple" multiple>
             </div>

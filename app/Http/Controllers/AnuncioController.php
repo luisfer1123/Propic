@@ -16,29 +16,48 @@ use Illuminate\Support\Facades\DB;
 
 class AnuncioController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+  
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$anuncios = Anuncio::all();
-        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
-        $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',f.nombre as 'nombre_foto',c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',a.descripcion,
-        a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,fotos f,tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id
-        and a.tipo_anuncio = t.id and f.id_anuncio = a.id ");
+        
+        
+    
+        if($request->get('f_tipo')){
+            
+            $f_categoria = trim($request->get('f_categoria'));
+            $f_ciudad = trim($request->get('f_ciudad'));
+            $f_tipo = trim($request->get('f_tipo'));
 
-        $departamentos=Departamento::all();
-        $categorias = Categoria::all();
-        $tipos = Tipo::all();
-
-        return view('pages.anuncios',["total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
-
+            $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',
+            a.descripcion,a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,
+            tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id and a.tipo_anuncio = t.id and a.id_categoria=".$f_categoria." 
+            and a.tipo_anuncio=".$f_tipo." and a.id_ciudad=".$f_ciudad."");
+            $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+            $departamentos=Departamento::all();
+            $categorias = Categoria::all();
+            $tipos = Tipo::all();
+            $ciudades = Ciudade::all();
+    
+            return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+        }else{
+            $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',a.descripcion,
+            a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id
+            and a.tipo_anuncio = t.id");
+            $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+            $departamentos=Departamento::all();
+            $categorias = Categoria::all();
+            $tipos = Tipo::all();
+            $ciudades = Ciudade::all();
+    
+            return view('pages.anuncios',["f_anuncios"=>null ,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+        }
+        
+       
     }
 
     public function ciudades(Request $request){
@@ -81,6 +100,19 @@ class AnuncioController extends Controller
             $anuncio_nuevo->descripcion = request('descripcion');
             $anuncio_nuevo->cuartos = request('cuartos');
             $anuncio_nuevo->metros_cuadrados = request('Mcuadrados');
+
+            
+            
+            if($request->hasFile("portada")){
+                $portada = $request->file("portada");
+                $num = rand(0,9999);
+                $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $portada->getClientOriginalExtension();
+                $portada->move(public_path()."/images/anuncios",$portada_name);
+                $anuncio_nuevo->portada = $portada_name;
+            }else{
+                $anuncio_nuevo->portada = "default.jpg";
+            }
+
             $anuncio_nuevo->save();
             $id_anuncio = $anuncio_nuevo->id;
             if($request->hasFile("imagenes")){
@@ -110,7 +142,13 @@ class AnuncioController extends Controller
      */
     public function show($id)
     {
-        //
+        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+        
+        $fotos = Foto::all()->where('id_anuncio','=',$id); 
+        $portada = Anuncio::findOrFail($id);
+
+        $ciudad = Ciudade::findOrFail($id);
+        return view('pages.view',["ciudad"=>$ciudad,"total_anuncios"=>$Tanuncios,"portada"=>$portada,"fotos"=>$fotos]);
     }
 
     /**

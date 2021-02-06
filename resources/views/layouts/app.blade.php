@@ -21,7 +21,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!--estilos propios-->
-    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="{{ asset('css/inicio.css') }}">
 
     <!--iconos-->
     <script src="https://kit.fontawesome.com/628b78a55e.js" crossorigin="anonymous"></script>
@@ -74,8 +74,9 @@
             </div>        
             
         </nav>
+        
 
-        <main class="py-4">
+        <main class="py-4" style="min-height: 350px">
             @yield('content')
         </main>
     </div>
