@@ -33,6 +33,7 @@
         <div class="col-md-6">
           <div class="card" style="min-height: 360px">
             <div class="card-body">
+              <span class="text-muted font-italic text-center">Codigo de publicación: {{$portada->id}}</span>
               <h3 class="card-title text-center">{{$tipo->nombre}} de {{$categoria->nombre}}</h3>
               <div class="card-text text-left pt-5">Ciudad: {{$ciudad->nombre}}  <p class="float-right">Barrio: {{$portada->barrio}}</p></div>
               <div class="card-text pt-2">Descripción <p> {{$portada->descripcion}} </p></div>

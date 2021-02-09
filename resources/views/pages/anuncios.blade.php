@@ -8,6 +8,7 @@
 
 @section('content')
     @include('pages.modalAnuncio')
+    @include('pages.modals.anuncioCodigo')
     <div class="container-fluid  mt-3" style="background-color:#BFBFBF">
         <div class="mx-auto text-center text-white pt-3">
             <form action="">
@@ -50,7 +51,7 @@
                     </div>
                     <div class="col-md">
                       <button class="btn btn-success btn-block" type="submit">Buscar</button>
-                      <a href="" class="p-2 float-right text-dark"><u>Buscar por codigo de propiedad</u></a>
+                      <a class="p-2 float-right text-dark" data-toggle="modal" data-target="#exampleModal2" style="cursor: pointer" ><u>Buscar por codigo de propiedad</u></a>
                     </div>
                     
                 </div>

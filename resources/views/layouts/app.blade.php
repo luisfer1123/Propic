@@ -35,7 +35,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: black">
             <a href="/" class="navbar-brand">Propic.com.co</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navegador">
                 <span class="navbar-toggler-icon"></span>
@@ -44,7 +44,7 @@
                 <ul class="navbar-nav">
                     
                     <li class="nav-item active">
-                        <a href="anuncios" class="nav-link">Anuncios</a>
+                        <a href="{{url('anuncios')}}" class="nav-link">Anuncios</a>
                     </li>    
                     @guest
                     @else

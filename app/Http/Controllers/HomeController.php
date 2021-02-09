@@ -22,6 +22,6 @@ class HomeController extends Controller
     public function index()
     {   
         $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
-        return view('home',["total_anuncios"=>$Tanuncios]);
+        return view('welcome',["total_anuncios"=>$Tanuncios]);
     }
 }
