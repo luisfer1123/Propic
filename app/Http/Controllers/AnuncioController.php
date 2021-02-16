@@ -44,7 +44,22 @@ class AnuncioController extends Controller
             $ciudades = Ciudade::all();
     
             return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
-        }else{
+        }elseif ($request->get('codigoB')) {
+            
+            $codigoB = trim($request->get('codigoB'));
+         
+            $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',
+            a.descripcion,a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,
+            tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id and a.tipo_anuncio = t.id and a.id=".$codigoB."");
+            $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+            $departamentos=Departamento::all();
+            $categorias = Categoria::all();
+            $tipos = Tipo::all();
+            $ciudades = Ciudade::all();
+    
+            return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+        }
+        else{
             $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',a.descripcion,
             a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id
             and a.tipo_anuncio = t.id");
