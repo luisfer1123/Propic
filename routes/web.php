@@ -2,6 +2,7 @@
 use App\Models\Ciudade;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,5 +23,5 @@ Route::resource('/anuncios', App\Http\Controllers\AnuncioController::class);
 Route::get('/ciudades',[App\Http\Controllers\AnuncioController::class,'ciudades']);
 
 
-
+Route::resource('/MisAnuncios',App\Http\Controllers\ManunciosController::class);
 

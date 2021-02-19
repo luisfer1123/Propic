@@ -1,0 +1,38 @@
+@extends('layouts.app')
+@section('Acount',$total_anuncios)
+@section('content')
+
+    <div class="container bg-white">
+
+        <h3 class="text-center">Mis Anuncios</h3>
+
+        <table class="table text-center">
+            <thead>
+                <tr>
+                <th scope="col">id publicación</th>
+                <th scope="col">Portada</th>
+                <th scope="col">Ciudad</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($Anuncios as $anuncio)
+                <tr>
+                    <th scope="row">{{$anuncio->id_anuncio}}</th>
+                    <td><img src="{{ asset('images/anuncios/' . $anuncio->portada) }}" alt="portada" height="100" width="200"></td>
+                    <td>{{$anuncio->ciudad}}</td>
+                    <td>{{$anuncio->tipo}}</td>
+                    <td>{{$anuncio->categoria}}</td>
+                    <td>
+                        <button type="button" class="btn btn-success">Editar</button>
+                        <button type="button" class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+            </table>
+    </div>
+
+@endsection

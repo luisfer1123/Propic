@@ -32,6 +32,9 @@
     
     <!--stilos propis-->
     @yield('linkscss')
+
+    <!---icono-->
+    <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
 </head>
 <body>
     <div id="app">
@@ -49,7 +52,7 @@
                     @guest
                     @else
                     <li class="nav-item active">
-                        <a href="/" class="nav-link">Mis anuncios <span class="badge bg-success">@yield('Acount')</span></a>
+                        <a href="{{url('MisAnuncios')}}" class="nav-link">Mis anuncios <span class="badge bg-success">@yield('Acount')</span></a>
                     </li>
                     @endguest
                     <li class="nav-item active">
