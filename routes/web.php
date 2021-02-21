@@ -20,8 +20,7 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('/anuncios', App\Http\Controllers\AnuncioController::class);
-Route::get('/ciudades',[App\Http\Controllers\AnuncioController::class,'ciudades']);
+Route::get('/ciudades',[App\Http\Controllers\ManunciosController::class,'ciudades']);
 
 
 Route::resource('/MisAnuncios',App\Http\Controllers\ManunciosController::class);
-

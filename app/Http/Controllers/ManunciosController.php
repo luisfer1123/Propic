@@ -5,8 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Anuncio;
+use App\Models\Departamento;
+use App\Models\Ciudade;
+use App\Models\Categoria;
+use App\Models\Tipo;
+
 class ManunciosController extends Controller
 {
+
+    public function ciudades(Request $request){
+        if ($request->ajax()) {
+            $ciudades = Ciudade::where('id_departamento', $request->id_departamento)->get();
+            foreach ($ciudades as $ciudad) {
+                $ciudadesArray[$ciudad->id] = $ciudad->nombre;
+            }
+            return response()->json($ciudadesArray);
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -64,8 +79,20 @@ class ManunciosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+        $departamentos = Departamento::all();
+        $datos_anuncio = Anuncio::findOrFail($id);
+        $categorias = Categoria::all();
+        $tipos = Tipo::all();    
+        $ciudad_id = Ciudade::findOrFail($datos_anuncio->id_ciudad);
+
+        return view('pages.misAnuncios.editAnuncio',["total_anuncios"=>$Tanuncios,
+                    "datos_anuncio"=>$datos_anuncio,"categorias"=>$categorias,
+                "tipos"=>$tipos,"ciudad"=>$ciudad_id],compact("departamentos"));
+                    
     }
+
+    
 
     /**
      * Update the specified resource in storage.

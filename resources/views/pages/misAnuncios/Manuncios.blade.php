@@ -26,7 +26,7 @@
                     <td>{{$anuncio->tipo}}</td>
                     <td>{{$anuncio->categoria}}</td>
                     <td>
-                        <button type="button" class="btn btn-success">Editar</button>
+                        <a href="{{URL::action([App\Http\Controllers\ManunciosController::class,'edit'],$anuncio->id_anuncio)}}" class="btn btn-success">Editar</a>
                         <button type="button" class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>

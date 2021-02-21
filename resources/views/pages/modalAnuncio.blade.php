@@ -103,7 +103,7 @@
     $("#departamento").on('change',function(){
         var id_departamento = $(this).val();
         if($.trim(id_departamento) != " "){
-            $.get('ciudades',{id_departamento:id_departamento},function(ciudades){
+            $.get('/ciudades',{id_departamento:id_departamento},function(ciudades){
               $("#ciudad").empty();
               $("#ciudad").append("<option value=''>Seleccione una opcion</option>");
               $.each(ciudades,function(index,value){
