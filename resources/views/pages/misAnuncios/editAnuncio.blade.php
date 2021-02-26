@@ -4,7 +4,8 @@
 
     <div class="container">
       <h3 class="text-center">Editar Anuncio</h3>
-      <form action="" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('MisAnuncios.update',$id_anuncio) }}" method="POST" enctype="multipart/form-data">
+        @method('PATCH')
         @csrf
         <div class="mb-3">
           <label for="recipient-name" class="col-form-label">Departamento:</label>
@@ -82,8 +83,8 @@
           <input class="form-control" accept="image/*" name="imagenes[]" type="file" id="formFileMultiple" multiple>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Publicar Anuncio</button>
+          <a href="{{ url('MisAnuncios') }}" class="btn btn-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </div>
       </form>
     </div>

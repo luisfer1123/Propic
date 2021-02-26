@@ -9,6 +9,7 @@ use App\Models\Departamento;
 use App\Models\Ciudade;
 use App\Models\Categoria;
 use App\Models\Tipo;
+use App\Models\Foto;
 
 class ManunciosController extends Controller
 {
@@ -88,7 +89,7 @@ class ManunciosController extends Controller
 
         return view('pages.misAnuncios.editAnuncio',["total_anuncios"=>$Tanuncios,
                     "datos_anuncio"=>$datos_anuncio,"categorias"=>$categorias,
-                "tipos"=>$tipos,"ciudad"=>$ciudad_id],compact("departamentos"));
+                "tipos"=>$tipos,"ciudad"=>$ciudad_id,"id_anuncio"=>$id],compact("departamentos"));
                     
     }
 
@@ -103,7 +104,74 @@ class ManunciosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $portadaA = Anuncio::findOrFail($id);
+        $fotosA = DB::select("select nombre from fotos where id_anuncio=$id");
+
+
+        $Manuncio = Anuncio::findOrFail($id);
+        $Manuncio->id_ciudad = $request->get('ciudad');
+        $Manuncio->id_categoria = $request->get('categoria');
+        $Manuncio->tipo_anuncio = $request->get('tipo');
+        $Manuncio->barrio = $request->get('barrio');
+        $Manuncio->direccion = $request->get('direccion');
+        $Manuncio->descripcion = $request->get('descripcion');
+        $Manuncio->cuartos = $request->get('cuartos');
+        $Manuncio->metros_cuadrados = $request->get('Mcuadrados');
+
+        if($request->hasFile("portada") && $request->hasFile("imagenes")){
+            $files = $request->file('portada');
+            $num = rand(0,9999);
+            $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $portada->getClientOriginalExtension();
+            $portada->move(public_path()."/images/anuncios",$portada_name);
+            $Manuncio->portada = $portada_name;
+            $Manuncio->update();
+
+            unlink('images/anuncios/'.$portadaA);
+
+            $files = $request->file("imagenes");
+            foreach($files as $file){
+                $fotos = Foto::where("id_anuncio","=",$id);
+                $num = rand(0,9999);
+                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path()."/images/anuncios",$file_name);
+                $fotos->nombre = $file_name;
+                $fotos->id_anuncio = $id; 
+                $fotos->update();
+            }
+
+            foreach($fotosA as $foto){
+                unlink('images/anuncios/'.$foto->nombre);
+            }
+        }elseif($request->hasFile("portada")){
+            $files = $request->file('portada');
+            $num = rand(0,9999);
+            $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $portada->getClientOriginalExtension();
+            $portada->move(public_path()."/images/anuncios",$portada_name);
+            $Manuncio->portada = $portada_name;
+            $Manuncio->update();
+
+            unlink('images/anuncios/'.$portadaA);
+        }elseif($request->hasFile("imagenes")){
+            $files = $request->file("imagenes");
+            foreach($files as $file){
+                $fotos = Foto::where("id_anuncio","=",$id);
+                $num = rand(0,9999);
+                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path()."/images/anuncios",$file_name);
+                $fotos->nombre = $file_name;
+                $fotos->id_anuncio = $id; 
+                $fotos->update();
+            }
+
+            foreach($fotosA as $foto){
+                unlink('images/anuncios/'.$foto->nombre);
+            }
+        }else{
+            $Manuncio->update();
+        }
+
+        return redirect('/MisAnuncios');
+
     }
 
     /**
