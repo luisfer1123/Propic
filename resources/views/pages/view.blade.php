@@ -11,14 +11,14 @@
           <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active" data-interval="2000">
-                <img src="{{  asset('images/anuncios/' . $portada->portada) }}" class="d-block w-100">
+                <img src="{{  asset('images/anuncios/' . $portada->portada) }}" height="360" width="400" class="d-block w-100">
               </div>
               @foreach ($fotos as $foto)
                   <div class="carousel-item" data-interval="2000">
-                      <img src="{{  asset('images/anuncios/' . $foto->nombre) }}" class="d-block w-100">
-                  </div>  
+                      <img height="360" width="400" src="{{  asset('images/anuncios/' . $foto->nombre) }}" class="d-block w-100">
+                  </div>
               @endforeach
-              
+
             </div>
             <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -43,10 +43,10 @@
           </div>
         </div>
       </div>
-      
 
-       
-        
+
+
+
     </div>
 
 @endsection

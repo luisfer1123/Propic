@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('Acount',$total_anuncios)
 @section('content')
-
     <div class="container bg-white">
 
         <h3 class="text-center">Mis Anuncios</h3>
@@ -26,8 +25,12 @@
                     <td>{{$anuncio->tipo}}</td>
                     <td>{{$anuncio->categoria}}</td>
                     <td>
-                        <a href="{{URL::action([App\Http\Controllers\ManunciosController::class,'edit'],$anuncio->id_anuncio)}}" class="btn btn-success">Editar</a>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
+                        <form action="{{ route('MisAnuncios.destroy',$anuncio->id_anuncio) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <a href="{{URL::action([App\Http\Controllers\ManunciosController::class,'edit'],$anuncio->id_anuncio)}}" class="btn btn-success">Editar</a>
+                            <button type="submit"class="btn btn-danger">Eliminar</button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

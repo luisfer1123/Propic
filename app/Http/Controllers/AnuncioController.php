@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class AnuncioController extends Controller
 {
-  
+
     /**
      * Display a listing of the resource.
      *
@@ -24,30 +24,30 @@ class AnuncioController extends Controller
      */
     public function index(Request $request)
     {
-        
-        
-    
+
+
+
         if($request->get('f_tipo')){
-            
+
             $f_categoria = trim($request->get('f_categoria'));
             $f_ciudad = trim($request->get('f_ciudad'));
             $f_tipo = trim($request->get('f_tipo'));
 
             $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',
             a.descripcion,a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,
-            tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id and a.tipo_anuncio = t.id and a.id_categoria=".$f_categoria." 
+            tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id and a.tipo_anuncio = t.id and a.id_categoria=".$f_categoria."
             and a.tipo_anuncio=".$f_tipo." and a.id_ciudad=".$f_ciudad."");
             $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
             $departamentos=Departamento::all();
             $categorias = Categoria::all();
             $tipos = Tipo::all();
             $ciudades = Ciudade::all();
-    
+
             return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
         }elseif ($request->get('codigoB')) {
-            
+
             $codigoB = trim($request->get('codigoB'));
-         
+
             $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',
             a.descripcion,a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,
             tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id and a.tipo_anuncio = t.id and a.id=".$codigoB."");
@@ -56,7 +56,7 @@ class AnuncioController extends Controller
             $categorias = Categoria::all();
             $tipos = Tipo::all();
             $ciudades = Ciudade::all();
-    
+
             return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
         }
         else{
@@ -68,11 +68,11 @@ class AnuncioController extends Controller
             $categorias = Categoria::all();
             $tipos = Tipo::all();
             $ciudades = Ciudade::all();
-    
+
             return view('pages.anuncios',["f_anuncios"=>null ,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
         }
-        
-       
+
+
     }
 
     public function ciudades(Request $request){
@@ -84,8 +84,8 @@ class AnuncioController extends Controller
             return response()->json($ciudadesArray);
         }
     }
-        
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -104,7 +104,7 @@ class AnuncioController extends Controller
      */
     public function store(AnuncioRequest $request)
     {
-            
+
             $anuncio_nuevo = new Anuncio();
             $anuncio_nuevo->id_user = auth()->id();
             $anuncio_nuevo->id_ciudad = request('ciudad');
@@ -116,8 +116,8 @@ class AnuncioController extends Controller
             $anuncio_nuevo->cuartos = request('cuartos');
             $anuncio_nuevo->metros_cuadrados = request('Mcuadrados');
 
-            
-            
+
+
             if($request->hasFile("portada")){
                 $portada = $request->file("portada");
                 $num = rand(0,9999);
@@ -138,14 +138,14 @@ class AnuncioController extends Controller
                     $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
                     $file->move(public_path()."/images/anuncios",$file_name);
                     $fotos->nombre = $file_name;
-                    $fotos->id_anuncio = $id_anuncio; 
+                    $fotos->id_anuncio = $id_anuncio;
                     $fotos->save();
                 }
             }
 
-            
-            
-            
+
+
+
         return redirect('/anuncios');
     }
 

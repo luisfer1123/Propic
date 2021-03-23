@@ -31,8 +31,8 @@ class ManunciosController extends Controller
     public function index()
     {
         $myId = auth()->id();
-        $misAnuncios = DB::select("select  a.id as 'id_anuncio',a.portada,c.nombre as 'ciudad' ,ca.nombre as 'categoria',t.nombre as 'tipo' 
-        from anuncios a,ciudades c,categorias ca,tipos t 
+        $misAnuncios = DB::select("select  a.id as 'id_anuncio',a.portada,c.nombre as 'ciudad' ,ca.nombre as 'categoria',t.nombre as 'tipo'
+        from anuncios a,ciudades c,categorias ca,tipos t
         where a.id_user=".$myId." and a.id_ciudad=c.id and a.id_categoria=ca.id and a.tipo_anuncio=t.id");
 
         $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
@@ -84,16 +84,16 @@ class ManunciosController extends Controller
         $departamentos = Departamento::all();
         $datos_anuncio = Anuncio::findOrFail($id);
         $categorias = Categoria::all();
-        $tipos = Tipo::all();    
+        $tipos = Tipo::all();
         $ciudad_id = Ciudade::findOrFail($datos_anuncio->id_ciudad);
 
         return view('pages.misAnuncios.editAnuncio',["total_anuncios"=>$Tanuncios,
                     "datos_anuncio"=>$datos_anuncio,"categorias"=>$categorias,
                 "tipos"=>$tipos,"ciudad"=>$ciudad_id,"id_anuncio"=>$id],compact("departamentos"));
-                    
+
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -118,54 +118,61 @@ class ManunciosController extends Controller
         $Manuncio->cuartos = $request->get('cuartos');
         $Manuncio->metros_cuadrados = $request->get('Mcuadrados');
 
+
         if($request->hasFile("portada") && $request->hasFile("imagenes")){
-            $files = $request->file('portada');
+            $portada = $request->file('portada');
             $num = rand(0,9999);
             $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $portada->getClientOriginalExtension();
             $portada->move(public_path()."/images/anuncios",$portada_name);
             $Manuncio->portada = $portada_name;
             $Manuncio->update();
 
-            unlink('images/anuncios/'.$portadaA);
+            if($portadaA->portada != "default.jpg"){ unlink('images/anuncios/'.$portadaA->portada); }
 
-            $files = $request->file("imagenes");
-            foreach($files as $file){
-                $fotos = Foto::where("id_anuncio","=",$id);
-                $num = rand(0,9999);
-                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path()."/images/anuncios",$file_name);
-                $fotos->nombre = $file_name;
-                $fotos->id_anuncio = $id; 
-                $fotos->update();
-            }
 
             foreach($fotosA as $foto){
                 unlink('images/anuncios/'.$foto->nombre);
+                Foto::where('nombre',$foto->nombre)->delete();
+
             }
+
+            $files = $request->file("imagenes");
+            foreach($files as $file){
+                $num = rand(0,9999);
+                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path()."/images/anuncios",$file_name);
+                DB::table('fotos')->insertGetId(
+                    ['nombre'=>$file_name,'id_anuncio'=>$id]
+                );
+            }
+
+
         }elseif($request->hasFile("portada")){
             $files = $request->file('portada');
             $num = rand(0,9999);
-            $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $portada->getClientOriginalExtension();
-            $portada->move(public_path()."/images/anuncios",$portada_name);
+            $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $files->getClientOriginalExtension();
+            $files->move(public_path()."/images/anuncios",$portada_name);
             $Manuncio->portada = $portada_name;
             $Manuncio->update();
 
-            unlink('images/anuncios/'.$portadaA);
+            unlink('images/anuncios/'.$portadaA->portada);
+
         }elseif($request->hasFile("imagenes")){
-            $files = $request->file("imagenes");
-            foreach($files as $file){
-                $fotos = Foto::where("id_anuncio","=",$id);
-                $num = rand(0,9999);
-                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path()."/images/anuncios",$file_name);
-                $fotos->nombre = $file_name;
-                $fotos->id_anuncio = $id; 
-                $fotos->update();
-            }
 
             foreach($fotosA as $foto){
                 unlink('images/anuncios/'.$foto->nombre);
+                Foto::where('nombre',$foto->nombre)->delete();
             }
+            $files = $request->file("imagenes");
+            foreach($files as $file){
+                $num = rand(0,9999);
+                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path()."/images/anuncios",$file_name);
+                DB::table('fotos')->insertGetId(
+                    ['nombre'=>$file_name,'id_anuncio'=>$id]
+                );
+            }
+
         }else{
             $Manuncio->update();
         }
@@ -182,6 +189,21 @@ class ManunciosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $anuncioDelete = Anuncio::findOrFail($id);
+        $fotosA = Foto::where("id_anuncio","=",$anuncioDelete->id)->get();
+
+        foreach($fotosA as $fotoD){
+            unlink('images/anuncios/'.$fotoD->nombre);
+            Foto::where('nombre',$fotoD->nombre)->delete();
+        }
+
+        if($anuncioDelete->portada != "default.jpg"){
+            unlink('images/anuncios/'.$anuncioDelete->portada);
+            $anuncioDelete->delete();
+        }
+
+
+        $anuncioDelete->delete();
+        return redirect('/MisAnuncios');
     }
 }
