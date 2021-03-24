@@ -11,7 +11,7 @@
     @include('pages.modals.anuncioCodigo')
     <div class="container-fluid  mt-3" style="background-color:#BFBFBF">
         <div class="mx-auto text-center text-white pt-3">
-            <form action="">
+            <form action="anuncios">
                 <div class="row justify-content-center">
                     <div class="form-group col-md-3">
                         <div class="input-group mb-3">
@@ -53,9 +53,7 @@
                       <button class="btn btn-success btn-block" type="submit">Buscar</button>
                       <a class="p-2 float-right text-dark" data-toggle="modal" data-target="#exampleModal2" style="cursor: pointer" ><u>Buscar por codigo de propiedad</u></a>
                     </div>
-                    
                 </div>
-                
             </form>
         </div>
     </div>
@@ -65,19 +63,19 @@
                 Resultados de la busqueda:
             </div>
     @endif
-    
+
     <div class="container-fluid mt-2 pb-2">
         @guest
         @else
         <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-success float-right">Publicar anuncio</button>
         @endguest
-        
+
     </div>
 
-    <div class="container-fluid mt-5">        
+    <div class="container-fluid mt-5">
         <div class="row">
             <!--Anuncios-->
-            @foreach ($anuncios as $anuncio)              
+            @foreach ($anuncios as $anuncio)
             <div class="col-sm">
                 <div class="card card-anuncio mb-3" style="max-width: 350px;">
                     <img src="{{ asset('images/anuncios/' . $anuncio->portada) }}" class="card-img-top" alt="...">
@@ -97,5 +95,5 @@
             <!--Fin de anuncios-->
         </div>
     </div>
-   
+
 @endsection

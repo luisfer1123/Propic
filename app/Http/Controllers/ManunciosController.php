@@ -121,57 +121,38 @@ class ManunciosController extends Controller
 
         if($request->hasFile("portada") && $request->hasFile("imagenes")){
             $portada = $request->file('portada');
-            $num = rand(0,9999);
-            $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $portada->getClientOriginalExtension();
-            $portada->move(public_path()."/images/anuncios",$portada_name);
-            $Manuncio->portada = $portada_name;
+            $Manuncio->portada = self::UpdatePortada($portada);
             $Manuncio->update();
 
             if($portadaA->portada != "default.jpg"){ unlink('images/anuncios/'.$portadaA->portada); }
 
 
             foreach($fotosA as $foto){
-                unlink('images/anuncios/'.$foto->nombre);
-                Foto::where('nombre',$foto->nombre)->delete();
-
+                self::DeleteFoto($foto->nombre);
             }
 
             $files = $request->file("imagenes");
-            foreach($files as $file){
-                $num = rand(0,9999);
-                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path()."/images/anuncios",$file_name);
-                DB::table('fotos')->insertGetId(
-                    ['nombre'=>$file_name,'id_anuncio'=>$id]
-                );
-            }
-
+            self::InsertFotos($files,$id);
 
         }elseif($request->hasFile("portada")){
             $files = $request->file('portada');
-            $num = rand(0,9999);
-            $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $files->getClientOriginalExtension();
-            $files->move(public_path()."/images/anuncios",$portada_name);
-            $Manuncio->portada = $portada_name;
+            $Manuncio->portada = self::UpdatePortada($files);;
             $Manuncio->update();
 
-            unlink('images/anuncios/'.$portadaA->portada);
+            if($portadaA->portada != 'default.jpg'){
+                unlink('images/anuncios/'.$portadaA->portada);
+            }
+
 
         }elseif($request->hasFile("imagenes")){
 
             foreach($fotosA as $foto){
-                unlink('images/anuncios/'.$foto->nombre);
-                Foto::where('nombre',$foto->nombre)->delete();
+                self::DeleteFoto($foto->nombre);
             }
+
             $files = $request->file("imagenes");
-            foreach($files as $file){
-                $num = rand(0,9999);
-                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path()."/images/anuncios",$file_name);
-                DB::table('fotos')->insertGetId(
-                    ['nombre'=>$file_name,'id_anuncio'=>$id]
-                );
-            }
+            self::InsertFotos($files,$id);
+
 
         }else{
             $Manuncio->update();
@@ -193,17 +174,47 @@ class ManunciosController extends Controller
         $fotosA = Foto::where("id_anuncio","=",$anuncioDelete->id)->get();
 
         foreach($fotosA as $fotoD){
-            unlink('images/anuncios/'.$fotoD->nombre);
-            Foto::where('nombre',$fotoD->nombre)->delete();
+            self::DeleteFoto($fotoD->nombre);
         }
 
-        if($anuncioDelete->portada != "default.jpg"){
-            unlink('images/anuncios/'.$anuncioDelete->portada);
-            $anuncioDelete->delete();
-        }
-
+        self::DeletePortada($anuncioDelete->portada);
 
         $anuncioDelete->delete();
         return redirect('/MisAnuncios');
     }
+
+
+
+    //functions delete
+    public function DeleteFoto($nameImg){
+        unlink('images/anuncios/'.$nameImg);
+        Foto::where('nombre',$nameImg)->delete();
+    }
+
+    public function DeletePortada($namePortada){
+        if($namePortada != "default.jpg"){
+            unlink('images/anuncios/'.$namePortada);
+            Anuncio::where('portada',$namePortada)->delete();
+        }
+    }
+
+    //update and insert functions
+    public function UpdatePortada($files){
+        $num = rand(0,9999);
+        $portada_name = $num.'-'.uniqid().'_'.time() . '.' . $files->getClientOriginalExtension();
+        $files->move(public_path()."/images/anuncios",$portada_name);
+        return $portada_name;
+    }
+    public function InsertFotos($files,$id){
+        foreach($files as $file){
+                $num = rand(0,9999);
+                $file_name = $num.'-'.uniqid().'_'.time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path()."/images/anuncios",$file_name);
+                DB::table('fotos')->insertGetId(
+                    ['nombre'=>$file_name,'id_anuncio'=>$id]
+                );
+        }
+    }
+
+
 }
