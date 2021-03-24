@@ -12,7 +12,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" name="BCodigo" id="BCodigo">
+        <form action="anuncios" name="BCodigo" id="BCodigo">
         <div class="modal-body">
               <div class="mb-3">
                 <label for="codigoB">Ingrese el codigo de la publicación</label>
