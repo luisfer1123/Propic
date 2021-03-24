@@ -5,7 +5,7 @@
 
         <h3 class="text-center">Mis Anuncios</h3>
 
-        <table class="table text-center">
+        <table class="table text-center table-responsive-sm">
             <thead>
                 <tr>
                 <th scope="col">id publicación</th>
@@ -36,6 +36,9 @@
                 @endforeach
             </tbody>
             </table>
+
+
     </div>
+
 
 @endsection

@@ -22,7 +22,6 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::resource('/anuncios', App\Http\Controllers\AnuncioController::class);
 Route::get('/ciudades',[App\Http\Controllers\ManunciosController::class,'ciudades']);
 
-
 Route::resource('/MisAnuncios',App\Http\Controllers\ManunciosController::class);
 
 

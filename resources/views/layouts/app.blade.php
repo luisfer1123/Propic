@@ -6,7 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -25,11 +25,11 @@
 
     <!--iconos-->
     <script src="https://kit.fontawesome.com/628b78a55e.js" crossorigin="anonymous"></script>
-   
+
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    
+
     <!--stilos propis-->
     @yield('linkscss')
 
@@ -45,10 +45,10 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navegador">
                 <ul class="navbar-nav">
-                    
+
                     <li class="nav-item active">
                         <a href="{{url('anuncios')}}" class="nav-link">Anuncios</a>
-                    </li>    
+                    </li>
                     @guest
                     @else
                     <li class="nav-item active">
@@ -73,11 +73,11 @@
                         @csrf
                     </form>
                     @endguest
-                </ul>  
-            </div>        
-            
+                </ul>
+            </div>
+
         </nav>
-        
+
 
         <main class="py-4" style="min-height: 350px">
             @yield('content')
@@ -91,25 +91,29 @@
                   <h5 class="text-center text-left">Nosotros</h5>
                   <p>Este pagina esta creada con el fin de que los usuarios puedan encontrar la casa o propiedad.
                     Que tanto desean de manera rapida y sencilla clasificando los anuncios y eliminando a quellos que no estan disponibles.
-
                   </p>
               </div>
               <div class="col-md-6 pt-3">
+                @guest
                 <ul class="list-unstyled list-inline text-center py-2  d-flex justify-content-end">
                   <li class="list-inline-item ">
                     <h5 class="mb-1">Registrarse</h5>
                   </li>
+
                   <li class="list-inline-item">
                     <a href="/login" class="btn btn-outline-light">Login</a>
                   </li>
+
+
                 </ul>
+                @endguest
               </div>
             </div>
-            
+
         </div>
 
         <div class="footer-copyright text-center py-3" style="background: black">
-          todos los derechos reservados © 2020 Copyright 
+          todos los derechos reservados © 2020 Copyright
         </div>
      </footer>
      @yield('scriptjs')
