@@ -35,6 +35,9 @@
 
     <!---icono-->
     <link rel="shortcut icon" href="{{asset('images/logo.png')}}" type="image/x-icon">
+
+    <!--login css-->
+    <link rel="stylesheet" href="{{asset('css/login.css')}}">
 </head>
 <body>
     <div id="app">
@@ -56,7 +59,7 @@
                     </li>
                     @endguest
                     <li class="nav-item active">
-                        <a href="" class="nav-link">Quienes somos</a>
+                        <a href="{{ url('Somos') }}" class="nav-link">Quienes somos</a>
                     </li>
                     <li class="nav-item active">
                         <a href="" class="nav-link">Contacto</a>

@@ -10,6 +10,7 @@ use App\Models\Ciudade;
 use App\Models\Categoria;
 use App\Models\Tipo;
 use App\Models\Foto;
+use App\Http\Controllers\HomeController;
 
 class ManunciosController extends Controller
 {
@@ -35,9 +36,8 @@ class ManunciosController extends Controller
         from anuncios a,ciudades c,categorias ca,tipos t
         where a.id_user=".$myId." and a.id_ciudad=c.id and a.id_categoria=ca.id and a.tipo_anuncio=t.id");
 
-        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
 
-        return view('pages.misAnuncios.Manuncios',["total_anuncios"=>$Tanuncios,"Anuncios"=>$misAnuncios]);
+        return view('pages.misAnuncios.Manuncios',["total_anuncios"=>HomeController::TotalAnunciosUser(),"Anuncios"=>$misAnuncios]);
     }
 
     /**
@@ -80,14 +80,14 @@ class ManunciosController extends Controller
      */
     public function edit($id)
     {
-        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+        
         $departamentos = Departamento::all();
         $datos_anuncio = Anuncio::findOrFail($id);
         $categorias = Categoria::all();
         $tipos = Tipo::all();
         $ciudad_id = Ciudade::findOrFail($datos_anuncio->id_ciudad);
 
-        return view('pages.misAnuncios.editAnuncio',["total_anuncios"=>$Tanuncios,
+        return view('pages.misAnuncios.editAnuncio',["total_anuncios"=>HomeController::TotalAnunciosUser(),
                     "datos_anuncio"=>$datos_anuncio,"categorias"=>$categorias,
                 "tipos"=>$tipos,"ciudad"=>$ciudad_id,"id_anuncio"=>$id],compact("departamentos"));
 

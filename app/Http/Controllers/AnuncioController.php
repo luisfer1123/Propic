@@ -11,12 +11,12 @@ use App\Models\Anuncio;
 use App\Models\Foto;
 use App\Http\Requests\AnuncioRequest;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\HomeController;
 
 
 class AnuncioController extends Controller
 {
-
+    
 
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class AnuncioController extends Controller
     public function index(Request $request)
     {
 
-
+        
 
         if($request->get('f_tipo')){
 
@@ -38,13 +38,12 @@ class AnuncioController extends Controller
             a.descripcion,a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,
             tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id and a.tipo_anuncio = t.id and a.id_categoria=".$f_categoria."
             and a.tipo_anuncio=".$f_tipo." and a.id_ciudad=".$f_ciudad."");
-            $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
             $departamentos=Departamento::all();
             $categorias = Categoria::all();
             $tipos = Tipo::all();
             $ciudades = Ciudade::all();
 
-            return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+            return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>HomeController::TotalAnunciosUser(),"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
         }elseif ($request->get('codigoB')) {
 
             $codigoB = trim($request->get('codigoB'));
@@ -52,25 +51,24 @@ class AnuncioController extends Controller
             $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',
             a.descripcion,a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,
             tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id and a.tipo_anuncio = t.id and a.id=".$codigoB."");
-            $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+            
             $departamentos=Departamento::all();
             $categorias = Categoria::all();
             $tipos = Tipo::all();
             $ciudades = Ciudade::all();
 
-            return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+            return view('pages.anuncios',["f_anuncios"=>true,"ciudades"=>$ciudades,"total_anuncios"=>HomeController::TotalAnunciosUser(),"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
         }
         else{
             $anuncios = DB::select("select  a.id,ci.nombre as 'ciudad',a.portada,c.nombre as 'categoria' ,t.nombre as 'tipo_anuncio',a.descripcion,
             a.cuartos,a.metros_cuadrados,date_format( a.created_at,'%d/%m/%y') as 'created_at' from anuncios a,categorias c,tipos t,ciudades ci where a.id_ciudad = ci.id and a.id_categoria = c.id
             and a.tipo_anuncio = t.id");
-            $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
             $departamentos=Departamento::all();
             $categorias = Categoria::all();
             $tipos = Tipo::all();
             $ciudades = Ciudade::all();
 
-            return view('pages.anuncios',["f_anuncios"=>null ,"ciudades"=>$ciudades,"total_anuncios"=>$Tanuncios,"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
+            return view('pages.anuncios',["f_anuncios"=>null ,"ciudades"=>$ciudades,"total_anuncios"=>HomeController::TotalAnunciosUser(),"anuncios"=>$anuncios,"categorias"=>$categorias,"tipos"=>$tipos],compact("departamentos"));
         }
 
 
@@ -158,14 +156,13 @@ class AnuncioController extends Controller
      */
     public function show($id)
     {
-        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
         $fotos = Foto::all()->where('id_anuncio','=',$id);
         $portada = Anuncio::findOrFail($id);
 
         $tipo = Tipo::findOrFail($portada->tipo_anuncio);
         $categoria = Categoria::findOrFail($portada->id_categoria);
         $ciudad = Ciudade::findOrFail($portada->id_ciudad);
-        return view('pages.view',["ciudad"=>$ciudad,"total_anuncios"=>$Tanuncios,
+        return view('pages.view',["ciudad"=>$ciudad,"total_anuncios"=>HomeController::TotalAnunciosUser(),
         "portada"=>$portada,"fotos"=>$fotos,"tipo"=>$tipo,"categoria"=>$categoria]);
     }
 

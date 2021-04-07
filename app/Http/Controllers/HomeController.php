@@ -28,8 +28,16 @@ class HomeController extends Controller
         $tipos = Tipo::all();
         $ciudades = Ciudade::all();
 
-        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
-        return view('welcome',["total_anuncios"=>$Tanuncios,"categorias"=>$categorias,
+        return view('welcome',["total_anuncios"=>self::TotalAnunciosUser(),"categorias"=>$categorias,
             "tipos"=>$tipos,"ciudades"=>$ciudades]);
+    }
+
+    public function Somos(){
+        return view('pages.Somos',['total_anuncios'=>self::TotalAnunciosUser()]);
+    }
+
+    public static function TotalAnunciosUser(){
+        $Tanuncios = Anuncio::where('id_user','=',auth()->id())->count();
+        return $Tanuncios;
     }
 }

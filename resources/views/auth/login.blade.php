@@ -5,13 +5,14 @@
     <div class="container">
         <div class="row justify-content-center">
 
-            <div class="col-md-5 border bg-dark text-white rounded">
+            <div class="col-md-5 text-white login-content">
                 <div class="d-flex justify-content-center mt-5 container_logo">
                     <div class="logo_container_text ">
-                        <h3 class="">Propic</h3>
+                        <h3 class="">Propic
+                        </h3>
                     </div>
                 </div>
-                <form class="p-5" action="{{ route('login') }}" method="POST">
+                <form class="p-5 " action="{{ route('login') }}" method="POST" >
                     @csrf
                     <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
                     <div class="mb-3 input-group">

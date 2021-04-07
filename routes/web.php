@@ -24,5 +24,5 @@ Route::get('/ciudades',[App\Http\Controllers\ManunciosController::class,'ciudade
 
 Route::resource('/MisAnuncios',App\Http\Controllers\ManunciosController::class);
 
-
+Route::get('/Somos',[App\Http\Controllers\HomeController::class, 'Somos']);
 

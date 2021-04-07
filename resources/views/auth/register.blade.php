@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row justify-content-center">
 
-        <div class="col-md-5 border bg-dark text-white rounded">
+        <div class="col-md-5 text-white login-content">
             <div class="d-flex justify-content-center mt-5 container_logo">
                 <div class="logo_container_text ">
                     <h3 class="">Propic</h3>
@@ -62,7 +62,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">Registrar</button>
-                <a href="register" class="btn-link ml-5">Ya tengo una cuenta</a>
+                <a href="login" class="btn-link ml-5">Ya tengo una cuenta</a>
               </form>
         </div>
     </div>
