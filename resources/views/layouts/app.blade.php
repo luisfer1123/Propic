@@ -54,8 +54,10 @@
                     </li>
                     @guest
                     @else
-                    <li class="nav-item active">
+                     <li class="nav-item active">
                         <a href="{{url('MisAnuncios')}}" class="nav-link">Mis anuncios <span class="badge bg-success">@yield('Acount')</span></a>
+                    </li><li class="nav-item active">
+                        <a href="{{url('MisAnuncios')}}" class="nav-link">Mis chats <span class="badge bg-success">@yield('Acount')</span></a>
                     </li>
                     @endguest
                     <li class="nav-item active">
@@ -64,11 +66,13 @@
                     <li class="nav-item active">
                         <a href="" class="nav-link">Contacto</a>
                     </li>
+                    
                     @guest
                     <li class="nav-item active">
                         <a href="{{ route('login') }}" class="btn btn-success my-2 my-sm-0 nav-link">Iniciar sesion</a>
                     </li>
-                    @else
+		    @else
+                   
                     <li class="nav-item active">
                         <a href="{{ route('logout') }}" class="btn btn-danger my-2 my-sm-0 nav-link" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Cerrar sesion</a>
                     </li>
